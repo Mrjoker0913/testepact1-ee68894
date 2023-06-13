@@ -1,0 +1,65 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: testepact1-ingress
+  labels:
+    app: testepact1
+    backstage.io/kubernetes-id: testepact1 
+spec:
+  rules:
+    - host: api-testepact1-pactando-dev.empcbr.thoughtworks-labs.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: testepact1
+                port: 
+                  number: 80
+  tls:
+  - hosts:
+    - api-testepact1-pactando-dev.empcbr.thoughtworks-labs.net
+    secretName: letencryptkey
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: testepact1
+  labels:
+    app: testepact1
+    backstage.io/kubernetes-id: testepact1
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: testepact1
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testepact1
+  labels:
+    app: testepact1
+    backstage.io/kubernetes-id: testepact1
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 5
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: testepact1
+  template:
+    metadata:
+      labels:
+        app: testepact1
+    spec:
+      containers:
+      - name: testepact1
+        image: 626109959667.dkr.ecr.us-east-1.amazonaws.com/testepact1:{image-tag}
+        ports:
+        - containerPort: 8080

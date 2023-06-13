@@ -1,0 +1,23 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: "testepact1"
+  description: "teste"
+  links:
+    - url: https://api-testepact1-pactando-dev.empcbr.thoughtworks-labs.net/swagger
+      title: testepact1
+      icon: dashboard
+  annotations:
+    circleci.com/project-slug: github/platform-dx/testepact1-ee68894
+    backstage.io/techdocs-ref: dir:.
+    github.com/project-slug:  platform-dx/testepact1-ee68894
+    sonarqube.org/project-key: "testepact1"
+    backstage.io/kubernetes-label-selector: "app=testepact1"
+    backstage.io/adr-location: docs/adrs/
+    pactbroker/consumer-provider: "Example App-Example API"
+spec:
+  type: service
+  lifecycle: experimental
+  owner: "teste"
+  providesApis:
+    - "testepact1"
